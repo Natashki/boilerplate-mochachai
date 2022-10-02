@@ -1,9 +1,13 @@
 'use strict'
+const http = require('http')
 const express = require('express');
 const app = express();
 
 const cors = require('cors');
 const runner = require('./test-runner');
+
+const host = "localhost";
+// const port = 5501;
 
 const bodyParser = require('body-parser');
 app.use(bodyParser.json());
@@ -58,7 +62,8 @@ const travellers = function (req, res) {
         }
     }
   }
-  res.json(data);
+  
+  // res.end(json.parse(data));
 };
 
 
@@ -82,19 +87,19 @@ app.get('/_api/get-tests', cors(), function (req, res, next) {
   });
 
 
-const port = process.env.PORT || 3000;
+const port = process.env.PORT || 5501;
 app.listen(port, function () {
   console.log("Listening on port " + port);
-  console.log('Running Tests...');
-  setTimeout(function () {
-    try {
-      runner.run();
-    } catch (e) {
-      error = e;
-      console.log('Tests are not valid:');
-      console.log(error);
-    }
-  }, 1500);
+  // console.log('Running Tests...');
+  // setTimeout(function () {
+  //   try {
+  //     runner.run();
+  //   } catch (e) {
+  //     error = e;
+  //     console.log('Tests are not valid:');
+  //     console.log(error);
+  //   }
+  // }, 1500);
 });
 
 
@@ -117,3 +122,8 @@ function testFilter(tests, type, n) {
   }
   return out;
 }
+
+// const server = http.createServer(travellers);
+// server.listen(port, host, () => {
+//     console.log(`Server is running on http://${host}:${port}`);
+// });

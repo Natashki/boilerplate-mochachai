@@ -73,42 +73,81 @@ suite('Functional Tests', function () {
 });
 
 const Browser = require('zombie');
-Browser.site = 'http://127.0.0.1:5501/'; // Your URL here
+Browser.site = 'https://boilerplate-mochachai.nataliialessles.repl.co'; // Your URL here
 const browser = new Browser();
 console.log(browser);
 
-  // suiteSetup(function(done) {
-  // return browser.visit('/', done);
-  //   });
-
-suite('Functional Tests with Zombie.js', function () {
  
+suiteSetup(function done() {
+      return browser.visit("/", done);
+    });
 
-  this.timeout(5000);
+
 
   suite('Headless browser', function () {
+    
     test('should have a working "site" property', function() {
       assert.isNotNull(browser.site);
+      });
     });
-  });
+  
+ 
 
+  
   suite('"Famous Italian Explorers" form', function () {
-    // #5
-    test('Submit the surname "Colombo" in the HTML form', function (done) {
-      let surname = 'Colombo';
-      browser.visit('/',() =>{
-        browser.fill('#i1', surname);
-        browser.pressButton('#submitname');
-        assert.fail();
-      })
-      
-      done();
-    });
-  //   // #6
-  //   test('Submit the surname "Vespucci" in the HTML form', function (done) {
-  //     assert.fail();
+    this.timeout(5000);
+      test('Submit the surname "Polo" in the HTML form', () => {
+            browser.visit('/', () => {
+            browser.fill('input', 'Polo').then(() => {
+              browser.pressButton('submit', () => {
+                browser.assert.success();
+                browser.assert.text('span#name', 'Marco');
+                browser.assert.text('span#surname', 'Polo');
+                browser.assert.elements('span#dates', 1);
+                
+              });
+            });
+            });
+        });
 
-  // //     done();
-  //   });
+
+this.timeout(5000);
+
+
+    // #5
+          test('Submit the surname "Polo" in the HTML form', () => {
+              browser.visit('/', () => {
+              browser.fill('input', 'Colombo').then(() => {
+                browser.pressButton('submit', () => {
+                  browser.assert.success();
+                  browser.assert.text('span#name', 'Cristoforo');
+                  browser.assert.text('span#surname', 'Colombo');
+                  browser.assert.elements('span#dates', 1);
+                  
+                });
+              });
+              });
+          });
+
+
+    this.timeout(5000);
+      
+  //   // #6
+    test('Submit the surname "Vespucci" in the HTML form', () =>{
+  
+      browser.visit('/', () => {
+      browser.fill('input', 'Vespucci').then(() => {
+        browser.pressButton('submit', () => {
+          browser.assert.success();
+          browser.assert.text('span#name', 'Amerigo');
+          browser.assert.text('span#surname', 'Vespucci');
+          browser.assert.elements('span#dates', 1);
+          
+        });
+      });
+      });
   });
-});
+
+
+
+  });
